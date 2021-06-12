@@ -1,18 +1,13 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
-		"target": "es6",
-		"outDir": "dist",
-		"lib": [
-			"es6"
-		],
-		"sourceMap": true,
-		"rootDir": "src",
-		"strict": true   
-	},
-	"exclude": [
-		"node_modules",
-		"dist",
-		".vscode-test"
-	]
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "outDir": "dist",
+    "lib": ["es6"],
+    "sourceMap": true,
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "exclude": ["node_modules", "dist", ".vscode-test"]
 }

@@ -4,20 +4,25 @@
   "description": "",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.57.0"
+    "vscode": "^1.50.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:find-test-file.helloWorld"
-  ],
   "main": "./dist/extension.js",
+  "activationEvents": [
+    "onCommand:find-test-file.jumpToTest",
+    "onLanguage:javascript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact"
+  ],
   "contributes": {
     "commands": [
       {
-        "command": "find-test-file.helloWorld",
-        "title": "Hello World"
+        "command": "find-test-file.jumpToTest",
+        "title": "Jump To Test/Source File",
+        "category": "Find Test File"
       }
     ]
   },
