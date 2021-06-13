@@ -1,6 +1,8 @@
-export const VALID_FILE_EXTENSIONS = [".js", ".jsx", ".ts", ".tsx"];
-export const INVALID_FILE_ERROR_MESSAGE = `"Find Test File" only support for ${VALID_FILE_EXTENSIONS.join(
-  ", "
-)} file!`;
+export const INVALID_FILE_ERROR_MESSAGE = `"Find Test File" only support for .js, .jsx, .ts, .tsx file!`;
 
-export const TEST_FILE_SUFFIXES = ["spec", "test"];
+export const PKG_FILE_NAME = "package.json";
+
+export const VALID_FILE_EXTENSION_REG = "(\\.[jt]sx?$)";
+export const FILE_BASENAME_REG = "([\\w-]+)";
+
+export const SIMILARITY_TOLERANCE = 0.05;
