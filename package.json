@@ -30,7 +30,7 @@
       "properties": {
         "findTestFile.testMatch": {
           "type": "string",
-          "default": "**/*.+(spec|test).[jt]x?(x)",
+          "default": "**/*.+(spec|test).[jt]s?(x)",
           "markdownDescription": "The glob patterns that extension uses to detect test files. By default, it looks for `.js`, `.jsx`, `.ts`, `.tsx` files with a suffix of `.spec` or `.test` (*e.g. `example.spec.ts` or `example.test.js`*)."
         },
         "findTestFile.excludeFolder": {
