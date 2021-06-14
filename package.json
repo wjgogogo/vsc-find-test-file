@@ -2,10 +2,11 @@
   "name": "find-test-file",
   "displayName": "Find Test File",
   "description": "It'll help you jump between source and test file easily",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.50.0"
   },
+  "publisher": "wjgogogo",
   "icon": "./public/icon.png",
   "categories": [
     "Jest",
@@ -66,9 +67,10 @@
         "findTestFile.excludeFolder": {
           "type": "array",
           "default": [
-            "node_modules"
+            "node_modules",
+            "dist"
           ],
-          "markdownDescription": "The folders that are outside of scan range. By default, it excludes `node_modules`."
+          "markdownDescription": "The folders that are outside of scan range. By default, it excludes `node_modules` and `dist`."
         },
         "findTestFile.preferStructureMode": {
           "type": "string",
@@ -97,7 +99,9 @@
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./dist/test/runTest.js"
+    "test": "node ./dist/test/runTest.js",
+    "prepublish": "vsce package",
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/glob": "^7.1.3",
@@ -111,6 +115,7 @@
     "glob": "^7.1.7",
     "mocha": "^8.4.0",
     "typescript": "^4.3.2",
+    "vsce": "^1.93.0",
     "vscode-test": "^1.5.2"
   },
   "dependencies": {
