@@ -7,20 +7,13 @@
     "vscode": "^1.50.0"
   },
   "publisher": "wjgogogo",
-  "icon": "./public/icon.png",
+  "icon": "public/icon.png",
   "categories": [
-    "Jest",
-    "Test",
-    "Frontend",
     "Other"
   ],
   "main": "./dist/extension.js",
   "activationEvents": [
-    "onCommand:find-test-file.jumpToTest",
-    "onLanguage:javascript",
-    "onLanguage:javascriptreact",
-    "onLanguage:typescript",
-    "onLanguage:typescriptreact"
+    "onCommand:find-test-file.jumpToTest"
   ],
   "contributes": {
     "commands": [
@@ -108,7 +101,7 @@
     "@types/mocha": "^8.2.2",
     "@types/node": "14.x",
     "@types/string-similarity": "^4.0.0",
-    "@types/vscode": "^1.57.0",
+    "@types/vscode": "^1.50.0",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
     "eslint": "^7.27.0",
