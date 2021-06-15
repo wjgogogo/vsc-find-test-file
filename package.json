@@ -1,7 +1,7 @@
 {
   "name": "find-test-file",
   "displayName": "Find Test File",
-  "description": "It'll help you jump between source and test file easily",
+  "description": "It'll help you jump between source and test file easily.",
   "version": "0.1.0",
   "engines": {
     "vscode": "^1.50.0"
@@ -37,7 +37,7 @@
       "editor/context": [
         {
           "command": "find-test-file.jumpToTest",
-          "group": "2_findtest",
+          "group": "2_find-test-file",
           "when": "resourceExtname =~ /.[jt]sx?/"
         }
       ],
@@ -52,35 +52,59 @@
     "configuration": {
       "title": "Find Test File",
       "properties": {
-        "findTestFile.testSuffix": {
+        "findTestFile.basic.testSuffix": {
           "type": "string",
           "default": "\\.(spec|test)",
           "markdownDescription": "The regexp patterns that extension uses to detect test files. By default, it looks for `.js`, `.jsx`, `.ts`, `.tsx` files with a suffix of `.spec` or `.test` (e.g. `example.spec.ts` or `example.test.js`)."
         },
-        "findTestFile.excludeFolder": {
+        "findTestFile.basic.excludeFolder": {
           "type": "array",
           "default": [
-            "node_modules",
-            "dist"
+            "node_modules"
           ],
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
           "markdownDescription": "The folders that are outside of scan range. By default, it excludes `node_modules` and `dist`."
         },
-        "findTestFile.preferStructureMode": {
+        "findTestFile.createIfNotFind.enable": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Decide whether to create test file when it can't be found ."
+        },
+        "findTestFile.createIfNotFind.preferStructureMode": {
           "type": "string",
+          "default": "separate",
           "enum": [
             "separate",
             "unite"
           ],
           "markdownEnumDescriptions": [
-            "Put all test files in **prefer test directory**, and follow the directory structure of source files (e.g. the test file of `src/example/a.ts` should be `__tests__/example/a.spec.ts`).",
+            "Put all test files in %findTestFile.advanced.createIfNotFind%, and follow the directory structure of source files (e.g. the test file of `src/example/a.ts` should be `__tests__/example/a.spec.ts`).",
             "Put related test file close to source file (e.g. the test file of `src/example/a.ts` should be `src/example/a.spec.ts`)."
           ],
-          "default": "separate",
-          "markdownDescription": "The prefer way to create new test file when can't find it. By default it's `separate`."
+          "markdownDescription": "The prefer way to `#findTestFile.advanced.createIfNotFind#` create new test file when can't find it. By default it's `separate`."
         },
-        "findTestFile.preferTestDirectory": {
-          "type": "string",
-          "default": "__tests__",
+        "findTestFile.createIfNotFind.preferTestDirectory": {
+          "type": "object",
+          "default": {
+            "separate": "__tests__",
+            "unite": "__tests__"
+          },
+          "properties": {
+            "separate": {
+              "type": "string"
+            },
+            "unite": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "separate",
+            "unite"
+          ],
+          "additionalProperties": false,
           "markdownDescription": "The prefer directory to create new test file when can't find it. By default it's `__tests__`, and only enable when **Prefer StructureMode** set to `separate` (e.g. it will create `__tests__/a.spec.ts` as test file for `src/a.ts`). And support multi-level directories (e.g. `__tests__/unit`)."
         }
       }

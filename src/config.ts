@@ -1,46 +1,78 @@
 import vscode from "vscode";
 
 interface Config {
-  testSuffix: string;
-  excludeFolder: string[];
-  preferStructureMode: "separate" | "unite";
-  preferTestDirectory: string;
+  basic: {
+    testSuffix: string;
+    excludeFolder: string[];
+  };
+  createIfNotFind: {
+    enable: boolean;
+    preferStructureMode: "separate" | "unite";
+    preferTestDirectory: {
+      separate: string;
+      unite: string;
+    };
+  };
 }
 
-const getCfgByKey = <T extends keyof Config>(key: T) => {
+const getCfgByKey = <K1 extends keyof Config, K2 extends keyof Config[K1]>(
+  primary: K1,
+  key: K2
+) => {
   const config = vscode.workspace.getConfiguration("findTestFile");
 
-  const testSuffix = config.get<Config[T]>(key)!;
-  const defaultCfg = config.inspect<Config[T]>(key)!.defaultValue!;
-  return [testSuffix, defaultCfg];
+  const cfg = config.get<Config[K1][K2]>(`${primary}.${key}`)!;
+  const defaultCfg = config.inspect<Config[K1][K2]>(`${primary}.${key}`)!
+    .defaultValue!;
+  return [cfg, defaultCfg];
+};
+
+const normalizeStringCfg = (value: string, defaultValue: string) => {
+  value = value.trim();
+  return value.length > 0 ? value : defaultValue;
 };
 
 export const getTestSuffixCfg = () => {
-  const [testMatch, defaultCfg] = getCfgByKey("testSuffix");
-
+  const [testMatch, defaultCfg] = getCfgByKey("basic", "testSuffix");
   const normalized = testMatch.trim();
-  return normalized.length === 0 ? defaultCfg : normalized;
+  return normalizeStringCfg(testMatch, defaultCfg);
 };
 
 export const getExcludeFolderCfg = () => {
-  const [excludeFolder, defaultCfg] = getCfgByKey("excludeFolder");
+  const [excludeFolder, defaultCfg] = getCfgByKey("basic", "excludeFolder");
 
-  const normalized = excludeFolder
-    .map((c) => c.trim())
-    .filter((c) => c.length > 0);
+  const normalized = [
+    ...new Set(excludeFolder.map((c) => c.trim()).filter((c) => c.length > 0)),
+  ];
   return normalized.length === 0 ? defaultCfg : normalized;
 };
 
-export const getPreferStructureModeCfg = () => {
-  const [mode] = getCfgByKey("preferStructureMode");
-  return mode;
+export const getCreateIfNotFindCfg = () => {
+  const [enable] = getCfgByKey("createIfNotFind", "enable");
+  return enable;
 };
 
-export const getPreferTestDirectoryCfg = () => {
-  const [directory, defaultCfg] = getCfgByKey("preferTestDirectory");
+export const getPreferCfg = () => {
+  const [preferStructureMode] = getCfgByKey(
+    "createIfNotFind",
+    "preferStructureMode"
+  );
+  const [preferTestDirectory, defaultPreferTestDirectory] = getCfgByKey(
+    "createIfNotFind",
+    "preferTestDirectory"
+  );
 
-  const normalized = directory.trim();
-  return normalized.length === 0 ? defaultCfg : normalized;
+  return {
+    preferStructureMode,
+    preferTestDirectory: {
+      separate: normalizeStringCfg(
+        preferTestDirectory.separate,
+        defaultPreferTestDirectory.separate
+      ),
+      unite: normalizeStringCfg(
+        preferTestDirectory.unite,
+        defaultPreferTestDirectory.unite
+      ),
+    },
+  };
 };
-
-
