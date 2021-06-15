@@ -1,8 +1,8 @@
-import { getValidFileReg } from "./regexp";
+import { generateValidTestSuffix, getValidFileReg } from "./regexp";
 import path from "path";
 import fs from "fs";
-import { PKG_FILE_NAME } from "./constant";
-import { getExcludeFolderCfg } from "./config";
+import { PKG_FILE_NAME, SOURCE_FOLDER } from "./constant";
+import { getCreateTestFilePreferCfg, getExcludeFolderCfg } from "./config";
 
 export const getCurrentProjectPath = (
   filePath: string,
@@ -24,8 +24,6 @@ export const getCurrentProjectPath = (
   return workspacePath;
 };
 
-export const getBaseName = () => {};
-
 const getAllFilePaths = (
   rootDir: string,
   matchFn: (filePath: string) => boolean
@@ -45,7 +43,7 @@ const getAllFilePaths = (
 
   if (
     fs.statSync(rootDir).isDirectory() &&
-    getExcludeFolderCfg().includes(path.basename(rootDir))
+    getExcludeFolderCfg().includes(getBasename(rootDir))
   ) {
     return files;
   }
@@ -61,7 +59,7 @@ export const getAllPossibleSourceFilePaths = (
   targetBasename: string
 ) => {
   const matchFn = (filePath: string) => {
-    const result = getValidFileReg().exec(filePath)!;
+    const result = getValidFileReg().exec(getBasename(filePath))!;
     return result && targetBasename === result[1] && result[2] === undefined;
   };
 
@@ -73,9 +71,41 @@ export const getAllPossibleTestFilePaths = (
   targetBasename: string
 ) => {
   const matchFn = (filePath: string) => {
-    const result = getValidFileReg().exec(filePath)!;
+    const result = getValidFileReg().exec(getBasename(filePath))!;
     return result && targetBasename === result[1] && result[2] !== undefined;
   };
 
   return getAllFilePaths(rootDir, matchFn);
+};
+
+export const getBasename = (filePath: string) => {
+  return path.basename(filePath);
+};
+
+export const getParentDirectory = (filePath: string) => {
+  return path.dirname(filePath);
+};
+
+export const getNewTestFilePath = (
+  basename: string,
+  ext: string,
+  parent: string,
+  root: string
+) => {
+  const { preferStructureMode, preferTestDirectory } =
+    getCreateTestFilePreferCfg();
+  const testFileName = `${basename}${generateValidTestSuffix()}${ext}`;
+  let directory;
+  if (preferStructureMode === "separate") {
+    const newRoot = `${root}/${preferTestDirectory.separate}`;
+    let relative = parent.slice(root.length);
+    if (relative.startsWith(`/${SOURCE_FOLDER}`)) {
+      relative = relative.slice(`/${SOURCE_FOLDER}`.length);
+    }
+    directory = relative.length === 0 ? newRoot : `${newRoot}${relative}`;
+  } else {
+    directory = `${parent}/${preferTestDirectory.unite}`;
+  }
+
+  return `${directory}/${testFileName}`;
 };

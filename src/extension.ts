@@ -1,12 +1,15 @@
-import { jumpToPossibleFiles } from './jumpToFile';
+import { createNewTestFile } from "./createNewTestFile";
+import { jumpToPossibleFiles } from "./jumpToFile";
 import {
   getAllPossibleSourceFilePaths,
   getAllPossibleTestFilePaths,
+  getBasename,
   getCurrentProjectPath,
+  getParentDirectory,
 } from "./getPath";
-import { INVALID_FILE_ERROR_MESSAGE } from "./constant";
+import { INVALID_FILE_MESSAGE } from "./constant";
 import vscode from "vscode";
-import { createValidFileReg } from './regexp';
+import { createValidFileReg } from "./regexp";
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
@@ -17,28 +20,33 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const activeFilePath = activeEditor.document.fileName;
-      
-      const result=createValidFileReg().exec(activeFilePath);
+
+      const result = createValidFileReg().exec(getBasename(activeFilePath));
+    
       
       if (!result) {
-        vscode.window.showErrorMessage(INVALID_FILE_ERROR_MESSAGE);
+        vscode.window.showWarningMessage(INVALID_FILE_MESSAGE);
         return;
       }
-
+      
       const workspaceFilePath = vscode.workspace.getWorkspaceFolder(
         activeEditor.document.uri
-      )!.uri.fsPath;
-
+        )!.uri.fsPath;
+        
       const root = getCurrentProjectPath(activeFilePath, workspaceFilePath);
 
-      const [,basename,testSuffix]=result;
-      
-      const relativeFiles = testSuffix
-      ? getAllPossibleSourceFilePaths(root,basename)
-        : getAllPossibleTestFilePaths(root,basename);
+      const [, basename, suffix] = result;
+      const ext = result[result.length - 1];
         
-      jumpToPossibleFiles(activeFilePath,relativeFiles);
-        
+      const relativeFiles = suffix
+        ? getAllPossibleSourceFilePaths(root, basename)
+        : getAllPossibleTestFilePaths(root, basename);
+
+      if (relativeFiles.length === 0 && suffix === undefined) {
+        createNewTestFile(basename, ext, getParentDirectory(activeFilePath) , root);
+      } else if (relativeFiles.length > 0) {
+        jumpToPossibleFiles(activeFilePath, relativeFiles);
+      }
     })
   );
 }

@@ -136,6 +136,7 @@
     "vscode-test": "^1.5.2"
   },
   "dependencies": {
+    "randexp": "^0.5.3",
     "string-similarity": "^4.0.4"
   }
 }

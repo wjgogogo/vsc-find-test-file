@@ -34,7 +34,6 @@ const normalizeStringCfg = (value: string, defaultValue: string) => {
 
 export const getTestSuffixCfg = () => {
   const [testMatch, defaultCfg] = getCfgByKey("basic", "testSuffix");
-  const normalized = testMatch.trim();
   return normalizeStringCfg(testMatch, defaultCfg);
 };
 
@@ -52,7 +51,7 @@ export const getCreateIfNotFindCfg = () => {
   return enable;
 };
 
-export const getPreferCfg = () => {
+export const getCreateTestFilePreferCfg = () => {
   const [preferStructureMode] = getCfgByKey(
     "createIfNotFind",
     "preferStructureMode"
