@@ -1,4 +1,4 @@
-import { generateValidTestSuffix, getValidFileReg } from "./regexp";
+import { generateValidTestSuffix, isValidFile } from "./regexp";
 import path from "path";
 import fs from "fs";
 import { PKG_FILE_NAME, SOURCE_FOLDER } from "./constant";
@@ -24,9 +24,10 @@ export const getCurrentProjectPath = (
   return workspacePath;
 };
 
-const getAllFilePaths = (
+export const getAllPossibleFilePaths = (
+  targetBasename: string,
   rootDir: string,
-  matchFn: (filePath: string) => boolean
+  searchTestFile: boolean = false
 ) => {
   const files: string[] = [];
 
@@ -35,7 +36,7 @@ const getAllFilePaths = (
   }
 
   if (fs.statSync(rootDir).isFile()) {
-    if (matchFn(rootDir)) {
+    if (isValidFile(targetBasename, rootDir, searchTestFile)) {
       files.push(rootDir);
     }
     return files;
@@ -49,33 +50,15 @@ const getAllFilePaths = (
   }
 
   fs.readdirSync(rootDir).forEach((name) => {
-    files.push(...getAllFilePaths(path.join(rootDir, name), matchFn));
+    files.push(
+      ...getAllPossibleFilePaths(
+        targetBasename,
+        path.join(rootDir, name),
+        searchTestFile
+      )
+    );
   });
   return files;
-};
-
-export const getAllPossibleSourceFilePaths = (
-  rootDir: string,
-  targetBasename: string
-) => {
-  const matchFn = (filePath: string) => {
-    const result = getValidFileReg().exec(getBasename(filePath))!;
-    return result && targetBasename === result[1] && result[2] === undefined;
-  };
-
-  return getAllFilePaths(rootDir, matchFn);
-};
-
-export const getAllPossibleTestFilePaths = (
-  rootDir: string,
-  targetBasename: string
-) => {
-  const matchFn = (filePath: string) => {
-    const result = getValidFileReg().exec(getBasename(filePath))!;
-    return result && targetBasename === result[1] && result[2] !== undefined;
-  };
-
-  return getAllFilePaths(rootDir, matchFn);
 };
 
 export const getBasename = (filePath: string) => {

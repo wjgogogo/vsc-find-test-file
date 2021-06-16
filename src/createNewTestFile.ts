@@ -1,4 +1,4 @@
-import { getValidFileReg } from "./regexp";
+import { isValidFile } from "./regexp";
 import { getCreateIfNotFindCfg } from "./config";
 import vscode from "vscode";
 import {
@@ -27,15 +27,13 @@ export const createNewTestFile = async (
     value: filePath,
     valueSelection: [filePath.length, filePath.length],
     validateInput(value) {
-      const result = getValidFileReg().exec(getBasename(value));
-
-      return result && result[2] !== undefined
+      return isValidFile(basename, value, true)
         ? null
         : INVALID_TEST_FILE_MESSAGE;
     },
   });
 
-  if (!realPath || !getValidFileReg().exec(getBasename(realPath))) {
+  if (!realPath) {
     return;
   }
 

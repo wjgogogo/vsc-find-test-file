@@ -1,8 +1,7 @@
 import { createNewTestFile } from "./createNewTestFile";
 import { jumpToPossibleFiles } from "./jumpToFile";
 import {
-  getAllPossibleSourceFilePaths,
-  getAllPossibleTestFilePaths,
+  getAllPossibleFilePaths,
   getBasename,
   getCurrentProjectPath,
   getParentDirectory,
@@ -36,12 +35,15 @@ export function activate(context: vscode.ExtensionContext) {
 
       const [, basename, suffix] = result;
       const ext = result[result.length - 1];
+      const searchTestFile = suffix === undefined;
 
-      const relativeFiles = suffix
-        ? getAllPossibleSourceFilePaths(root, basename)
-        : getAllPossibleTestFilePaths(root, basename);
+      const relativeFiles = getAllPossibleFilePaths(
+        basename,
+        root,
+        searchTestFile
+      );
 
-      if (relativeFiles.length === 0 && suffix === undefined) {
+      if (relativeFiles.length === 0 && searchTestFile) {
         createNewTestFile(
           basename,
           ext,
