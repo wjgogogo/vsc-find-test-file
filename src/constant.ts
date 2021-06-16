@@ -1,5 +1,8 @@
 export const INVALID_FILE_MESSAGE = `"Find Test File" only support for .js, .jsx, .ts, .tsx file!`;
+
 export const NO_FOUND_MESSAGE = `Can't find related test file!`;
+export const NEW_TEST_FILE_PROMPT = `Please Confirm The New Test File Path`;
+export const INVALID_TEST_FILE_MESSAGE = `The Test File Name Is Invalid!`;
 
 export const PKG_FILE_NAME = "package.json";
 export const SOURCE_FOLDER = "src";

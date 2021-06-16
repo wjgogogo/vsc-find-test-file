@@ -22,28 +22,32 @@ export function activate(context: vscode.ExtensionContext) {
       const activeFilePath = activeEditor.document.fileName;
 
       const result = createValidFileReg().exec(getBasename(activeFilePath));
-    
-      
+
       if (!result) {
         vscode.window.showWarningMessage(INVALID_FILE_MESSAGE);
         return;
       }
-      
+
       const workspaceFilePath = vscode.workspace.getWorkspaceFolder(
         activeEditor.document.uri
-        )!.uri.fsPath;
-        
+      )!.uri.fsPath;
+
       const root = getCurrentProjectPath(activeFilePath, workspaceFilePath);
 
       const [, basename, suffix] = result;
       const ext = result[result.length - 1];
-        
+
       const relativeFiles = suffix
         ? getAllPossibleSourceFilePaths(root, basename)
         : getAllPossibleTestFilePaths(root, basename);
 
       if (relativeFiles.length === 0 && suffix === undefined) {
-        createNewTestFile(basename, ext, getParentDirectory(activeFilePath) , root);
+        createNewTestFile(
+          basename,
+          ext,
+          getParentDirectory(activeFilePath),
+          root
+        );
       } else if (relativeFiles.length > 0) {
         jumpToPossibleFiles(activeFilePath, relativeFiles);
       }

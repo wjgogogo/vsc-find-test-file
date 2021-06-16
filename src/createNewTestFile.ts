@@ -1,7 +1,11 @@
 import { getValidFileReg } from "./regexp";
 import { getCreateIfNotFindCfg } from "./config";
 import vscode from "vscode";
-import { NO_FOUND_MESSAGE } from "./constant";
+import {
+  INVALID_TEST_FILE_MESSAGE,
+  NEW_TEST_FILE_PROMPT,
+  NO_FOUND_MESSAGE,
+} from "./constant";
 import { getBasename, getNewTestFilePath, getParentDirectory } from "./getPath";
 import fs from "fs";
 import { openFile } from "./jumpToFile";
@@ -19,7 +23,7 @@ export const createNewTestFile = async (
 
   const filePath = getNewTestFilePath(basename, ext, parent, root);
   const realPath = await vscode.window.showInputBox({
-    prompt: "Please Confirm The New Test File Path",
+    prompt: NEW_TEST_FILE_PROMPT,
     value: filePath,
     valueSelection: [filePath.length, filePath.length],
     validateInput(value) {
@@ -27,7 +31,7 @@ export const createNewTestFile = async (
 
       return result && result[2] !== undefined
         ? null
-        : "Test File Name Is Invalid";
+        : INVALID_TEST_FILE_MESSAGE;
     },
   });
 
