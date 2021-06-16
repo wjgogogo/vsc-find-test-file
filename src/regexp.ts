@@ -16,7 +16,6 @@ export const getValidFileReg = () => {
   return reg ? reg : createValidFileReg();
 };
 
-
 export const generateValidTestSuffix = () => {
   const suffix = getTestSuffixCfg();
   return RandExp.randexp(suffix);

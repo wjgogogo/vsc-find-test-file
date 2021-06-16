@@ -56,6 +56,7 @@ export const getCreateTestFilePreferCfg = () => {
     "createIfNotFind",
     "preferStructureMode"
   );
+
   const [preferTestDirectory, defaultPreferTestDirectory] = getCfgByKey(
     "createIfNotFind",
     "preferTestDirectory"
