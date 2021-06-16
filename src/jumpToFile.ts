@@ -1,5 +1,9 @@
-import { createNewTestFile } from "./createNewTestFile";
-import vscode from "vscode";
+import {
+  createTestFile,
+  CreateTestFileOption,
+  getCreatePickItems,
+} from "./createTestFile";
+import vscode, { QuickPickItem } from "vscode";
 import path from "path";
 import similarity from "string-similarity";
 import { SIMILARITY_TOLERANCE } from "./constant";
@@ -11,7 +15,9 @@ export const openFile = async (filePath: string) => {
 
 export const jumpToPossibleFiles = async (
   current: string,
-  relativeFiles: string[]
+  relativeFiles: string[],
+  isJumpToTestFile: boolean,
+  createTestFileOption: CreateTestFileOption
 ) => {
   const matches = similarity.findBestMatch(current, relativeFiles);
 
@@ -24,14 +30,27 @@ export const jumpToPossibleFiles = async (
   if (possibleMatches.length === 1) {
     await openFile(possibleMatches[0]);
   } else {
-    const select = await vscode.window.showQuickPick(
-      possibleMatches.map((i) => ({
-        label: path.basename(i),
-        description: i,
-      }))
+    let pickItems = possibleMatches.map(
+      (i, idx) =>
+        ({
+          picked: idx === 0, // select best match by default
+          label: path.basename(i),
+          description: i,
+        } as QuickPickItem)
     );
-    if (select) {
-      await openFile(select.description);
+
+    if (isJumpToTestFile) {
+      pickItems = pickItems.concat(getCreatePickItems());
+    }
+    const select = await vscode.window.showQuickPick(pickItems);
+
+    if (!select) {
+      return;
+    }
+    if (select.description) {
+      await openFile(select.description!);
+    } else if (isJumpToTestFile) {
+      await createTestFile(createTestFileOption);
     }
   }
 };

@@ -1,4 +1,4 @@
-import { createNewTestFile } from "./createNewTestFile";
+import { createTestFile } from "./createTestFile";
 import { jumpToPossibleFiles } from "./jumpToFile";
 import {
   getAllPossibleFilePaths,
@@ -42,16 +42,22 @@ export function activate(context: vscode.ExtensionContext) {
         root,
         searchTestFile
       );
+      const createTestFileOption = {
+        basename,
+        ext,
+        parent: getParentDirectory(activeFilePath),
+        root,
+      };
 
       if (relativeFiles.length === 0 && searchTestFile) {
-        createNewTestFile(
-          basename,
-          ext,
-          getParentDirectory(activeFilePath),
-          root
-        );
+        createTestFile(createTestFileOption);
       } else if (relativeFiles.length > 0) {
-        jumpToPossibleFiles(activeFilePath, relativeFiles);
+        jumpToPossibleFiles(
+          activeFilePath,
+          relativeFiles,
+          searchTestFile,
+          createTestFileOption
+        );
       }
     })
   );

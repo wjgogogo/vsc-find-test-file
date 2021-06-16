@@ -1,8 +1,9 @@
 import { isValidFile } from "./regexp";
 import { getCreateIfNotFindCfg } from "./config";
-import vscode from "vscode";
+import vscode, { QuickPickItem } from "vscode";
 import {
   INVALID_TEST_FILE_MESSAGE,
+  NEW_TEST_FILE_PICK_LABEL,
   NEW_TEST_FILE_PROMPT,
   NO_FOUND_MESSAGE,
 } from "./constant";
@@ -10,12 +11,19 @@ import { getBasename, getNewTestFilePath, getParentDirectory } from "./getPath";
 import fs from "fs";
 import { openFile } from "./jumpToFile";
 
-export const createNewTestFile = async (
-  basename: string,
-  ext: string,
-  parent: string,
-  root: string
-) => {
+export interface CreateTestFileOption {
+  basename: string;
+  ext: string;
+  parent: string;
+  root: string;
+}
+
+export const createTestFile = async ({
+  basename,
+  ext,
+  parent,
+  root,
+}: CreateTestFileOption) => {
   if (!getCreateIfNotFindCfg()) {
     vscode.window.showInformationMessage(NO_FOUND_MESSAGE);
     return;
@@ -40,4 +48,16 @@ export const createNewTestFile = async (
   fs.mkdirSync(getParentDirectory(realPath), { recursive: true });
   fs.closeSync(fs.openSync(realPath, "w+"));
   await openFile(realPath);
+};
+
+export const getCreatePickItems = () => {
+  const pickItems: QuickPickItem[] = [];
+  if (!getCreateIfNotFindCfg()) {
+    return pickItems;
+  }
+  pickItems.push({
+    label: `$(file-add) ${NEW_TEST_FILE_PICK_LABEL}`,
+    alwaysShow: true,
+  });
+  return pickItems;
 };
