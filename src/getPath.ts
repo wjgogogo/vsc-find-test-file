@@ -82,17 +82,17 @@ export const getNewTestFilePath = (
   const testFileName = `${basename}${generateValidTestSuffix()}${ext}`;
   let directory;
   if (preferStructureMode === "separate") {
-    const newRoot = `${root}/${preferTestDirectory.separate}`;
+    const newRoot = path.join(root, preferTestDirectory.separate);
     let relative = parent.slice(root.length);
     if (relative.startsWith(`/${SOURCE_FOLDER}`)) {
       relative = relative.slice(`/${SOURCE_FOLDER}`.length);
     }
-    directory = relative.length === 0 ? newRoot : `${newRoot}${relative}`;
+    directory = relative.length === 0 ? newRoot : path.join(newRoot, relative);
   } else {
-    directory = `${parent}/${preferTestDirectory.unite}`;
+    directory = path.join(parent, preferTestDirectory.unite);
   }
 
-  return `${directory}/${testFileName}`;
+  return path.join(directory, testFileName);
 };
 
 export const tryToGetTestFilePath = (
