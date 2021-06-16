@@ -26,6 +26,7 @@ export const getCurrentProjectPath = (
 
 export const getAllPossibleFilePaths = (
   targetBasename: string,
+  ext: string,
   rootDir: string,
   searchTestFile: boolean = false
 ) => {
@@ -36,7 +37,7 @@ export const getAllPossibleFilePaths = (
   }
 
   if (fs.statSync(rootDir).isFile()) {
-    if (isValidFile(targetBasename, rootDir, searchTestFile)) {
+    if (isValidFile(targetBasename, ext, rootDir, searchTestFile)) {
       files.push(rootDir);
     }
     return files;
@@ -53,6 +54,7 @@ export const getAllPossibleFilePaths = (
     files.push(
       ...getAllPossibleFilePaths(
         targetBasename,
+        ext,
         path.join(rootDir, name),
         searchTestFile
       )
@@ -91,4 +93,23 @@ export const getNewTestFilePath = (
   }
 
   return `${directory}/${testFileName}`;
+};
+
+export const tryToGetTestFilePath = (
+  filePath: string,
+  basename: string,
+  ext: string
+) => {
+  if (!fs.existsSync(filePath)) {
+    return;
+  }
+  const parent = getParentDirectory(filePath);
+  const fileName = fs
+    .readdirSync(parent)
+    .find(
+      (name) =>
+        fs.statSync(path.join(parent, name)).isFile() &&
+        isValidFile(basename, ext, name, true)
+    );
+  return fileName && path.join(parent, fileName);
 };

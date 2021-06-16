@@ -19,6 +19,7 @@ export const getValidFileReg = () => {
 
 export const isValidFile = (
   targetBasename: string,
+  ext: string,
   filePath: string,
   isTestFile: boolean = false
 ) => {
@@ -26,6 +27,7 @@ export const isValidFile = (
   return (
     result &&
     targetBasename === result[1] &&
+    ext === result[result.length - 1] &&
     (isTestFile ? result[2] !== undefined : result[2] === undefined)
   );
 };

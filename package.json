@@ -27,7 +27,8 @@
   },
   "main": "./dist/extension.js",
   "activationEvents": [
-    "onCommand:find-test-file.jumpToTest"
+    "onCommand:find-test-file.jumpToTest",
+    "onCommand:find-test-file.createTestFile"
   ],
   "contributes": {
     "commands": [
@@ -37,6 +38,13 @@
         "category": "Find Test File",
         "icon": "$(preferences-open-settings)",
         "enablement": "resourceExtname =~ /.[jt]sx?/"
+      },
+      {
+        "command": "find-test-file.createTestFile",
+        "title": "Create Test File For Current",
+        "category": "Find Test File",
+        "icon": "$(file-add)",
+        "enablement": "resourceExtname =~ /.[jt]sx?/"
       }
     ],
     "keybindings": [
@@ -45,19 +53,35 @@
         "key": "ctrl+shift+t",
         "mac": "cmd+shift+t",
         "when": "resourceExtname =~ /.[jt]sx?/"
+      },
+      {
+        "command": "find-test-file.createTestFile",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t",
+        "when": "resourceExtname =~ /.[jt]sx?/"
       }
     ],
     "menus": {
       "editor/context": [
         {
           "command": "find-test-file.jumpToTest",
-          "group": "2_find-test-file",
+          "group": "1_find-test-file",
+          "when": "resourceExtname =~ /.[jt]sx?/"
+        },
+        {
+          "command": "find-test-file.createTestFile",
+          "group": "1_find-test-file",
           "when": "resourceExtname =~ /.[jt]sx?/"
         }
       ],
       "editor/title": [
         {
           "command": "find-test-file.jumpToTest",
+          "group": "navigation",
+          "when": "resourceExtname =~ /.[jt]sx?/"
+        },
+        {
+          "command": "find-test-file.createTestFile",
           "group": "navigation",
           "when": "resourceExtname =~ /.[jt]sx?/"
         }
