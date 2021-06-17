@@ -71,7 +71,7 @@ export function activate(context: vscode.ExtensionContext) {
       };
 
       if (relativeFiles.length === 0 && searchTestFile) {
-        createTestFile(createTestFileOption);
+        createTestFile(createTestFileOption, false);
       } else if (relativeFiles.length > 0) {
         jumpToPossibleFiles(
           activeFilePath,

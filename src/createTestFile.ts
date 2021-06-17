@@ -2,13 +2,13 @@ import { isValidFile } from "./regexp";
 import { getCreateIfNotFindCfg } from "./config";
 import vscode, { QuickPickItem } from "vscode";
 import {
+  DISABLE_CREATE_TEST_FILE_WARNING_MESSAGE,
   INVALID_TEST_FILE_WARNING_MESSAGE,
   NEW_TEST_FILE_PICK_LABEL,
   NEW_TEST_FILE_PROMPT,
   NO_FOUND_WARNING_MESSAGE,
 } from "./constant";
 import {
-  getBasename,
   getNewTestFilePath,
   getParentDirectory,
   tryToGetTestFilePath,
@@ -23,14 +23,16 @@ export interface CreateTestFileOption {
   root: string;
 }
 
-export const createTestFile = async ({
-  basename,
-  ext,
-  parent,
-  root,
-}: CreateTestFileOption) => {
+export const createTestFile = async (
+  { basename, ext, parent, root }: CreateTestFileOption,
+  manualCreate: boolean = true
+) => {
   if (!getCreateIfNotFindCfg()) {
-    vscode.window.showInformationMessage(NO_FOUND_WARNING_MESSAGE);
+    vscode.window.showInformationMessage(
+      manualCreate
+        ? DISABLE_CREATE_TEST_FILE_WARNING_MESSAGE
+        : NO_FOUND_WARNING_MESSAGE
+    );
     return;
   }
 
