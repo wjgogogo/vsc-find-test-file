@@ -2,7 +2,7 @@
   "name": "find-test-file",
   "displayName": "Find Test File",
   "description": "It'll help you jump between source and test file easily.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "engines": {
     "vscode": "^1.50.0"
@@ -122,7 +122,7 @@
             "Put new test file in a separate folder, and follow the same directory structure of source file (e.g. the test file of `src/example/a.ts` should be `@separate-folder/example/a.spec.ts`).",
             "Put new test file close to the source file (e.g. the test file of `src/example/a.ts` should be `src/example/@unite-folder/a.spec.ts`)."
           ],
-          "markdownDescription": "The prefer way to create test file when can't find it and `#findTestFile.advanced.createIfNotFind#` is enabled. By default, it's `separate`."
+          "markdownDescription": "The prefer way to create test file when can't find it and `#findTestFile.createIfNotFind.enable#` is enabled. By default, it's `separate`."
         },
         "findTestFile.createIfNotFind.preferTestDirectory": {
           "type": "object",
@@ -156,6 +156,7 @@
     "lint": "eslint src --ext ts",
     "format": "prettier src --write",
     "test": "",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "prepublish": "vsce package",
     "publish": "vsce publish"
   },
@@ -192,6 +193,7 @@
     "@types/vscode": "^1.50.0",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
+    "conventional-changelog-cli": "^2.1.1",
     "eslint": "^7.27.0",
     "glob": "^7.1.7",
     "husky": "^4.3.8",
