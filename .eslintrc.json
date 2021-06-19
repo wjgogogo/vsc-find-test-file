@@ -14,5 +14,5 @@
     "no-throw-literal": "warn",
     "semi": "off"
   },
-  "ignorePatterns": ["node_modules", "out", "dist", "**/*.d.ts"]
+  "ignorePatterns": ["node_modules", "dist", "**/*.d.ts"]
 }

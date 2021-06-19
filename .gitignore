@@ -1,6 +1,4 @@
-out
-dist
 node_modules
-.vscode-test/
+dist
 *.vsix
 .DS_Store

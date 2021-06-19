@@ -4,10 +4,12 @@
     "target": "es6",
     "outDir": "dist",
     "lib": ["es6"],
-    "sourceMap": true,
-    "rootDir": "src",
+    "skipLibCheck": true,
+    "sourceMap": false,
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "rootDir": "src"
   },
-  "exclude": ["node_modules", "dist", ".vscode-test"]
+
+  "exclude": ["node_modules"]
 }
