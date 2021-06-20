@@ -153,7 +153,10 @@
     "watch": "tsc -watch -p ./",
     "lint": "eslint src --ext ts",
     "format": "prettier src --write",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "preversion": "yarn run lint && yarn run format",
+    "version": "yarn run changelog",
+    "postversion": "git push --tags",
     "prepublish": "vsce package",
     "publish": "vsce publish"
   },
