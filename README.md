@@ -3,6 +3,7 @@
 ![VS Version](https://vsmarketplacebadge.apphb.com/version/wjgogogo.find-test-file.svg)
 ![Rating](https://vsmarketplacebadge.apphb.com/rating/wjgogogo.find-test-file.svg)
 ![Install](https://vsmarketplacebadge.apphb.com/installs/wjgogogo.find-test-file.svg)
+[![Auto Publish](https://github.com/wjgogogo/vscode-find-test-file/actions/workflows/publish.yml/badge.svg)](https://github.com/wjgogogo/vscode-find-test-file/actions/workflows/publish.yml)
 
 > a vscode extension to help you jump between source and test file easily! 💯
 
