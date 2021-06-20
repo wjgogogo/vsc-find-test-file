@@ -1,5 +1,9 @@
 # Find Test File
 
+![VS Version](https://vsmarketplacebadge.apphb.com/version/wjgogogo.find-test-file.svg)
+![Rating](https://vsmarketplacebadge.apphb.com/rating/wjgogogo.find-test-file.svg)
+![Install](https://vsmarketplacebadge.apphb.com/installs/wjgogogo.find-test-file.svg)
+
 > a vscode extension to help you jump between source and test file easily! 💯
 
 <p align="center">
