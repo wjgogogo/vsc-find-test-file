@@ -1,3 +1,5 @@
+## [0.2.6](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.5...v0.2.6) (2021-06-21)
+
 ## [0.2.5](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.4...v0.2.5) (2021-06-21)
 
 ### Bug Fixes
