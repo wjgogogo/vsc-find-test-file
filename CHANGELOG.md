@@ -1,3 +1,9 @@
+## [0.2.4](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.3...v0.2.4) (2021-06-21)
+
+### Bug Fixes
+
+- 👷 fix postpublish script ([241509d](https://github.com/wjgogogo/vscode-find-test-file/commit/241509d416afd3099d3c449513fbd64b17a05129))
+
 ## [0.2.3](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.2...v0.2.3) (2021-06-20)
 
 ## 0.2.2 (2021-06-20)
