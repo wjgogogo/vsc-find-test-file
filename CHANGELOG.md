@@ -1,3 +1,9 @@
+## [0.2.5](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.4...v0.2.5) (2021-06-21)
+
+### Bug Fixes
+
+- 💚 add compile step in ci ([fb4bb5b](https://github.com/wjgogogo/vscode-find-test-file/commit/fb4bb5b4c04aba97ade23e40de7683cf91a7d2ad))
+
 ## [0.2.4](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.3...v0.2.4) (2021-06-21)
 
 ### Bug Fixes
