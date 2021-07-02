@@ -1,3 +1,9 @@
+## [0.2.7](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.6...v0.2.7) (2021-07-02)
+
+### Features
+
+- update find test icon ([331fa2b](https://github.com/wjgogogo/vscode-find-test-file/commit/331fa2bf9e46972887c8d5409c38099b92b308bb))
+
 ## [0.2.6](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.5...v0.2.6) (2021-06-21)
 
 ## [0.2.5](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.4...v0.2.5) (2021-06-21)
