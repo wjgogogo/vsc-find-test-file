@@ -1,3 +1,9 @@
+## [0.2.8](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.7...v0.2.8) (2021-07-09)
+
+### Bug Fixes
+
+- 🩹 refine relative file extension ([1c60a60](https://github.com/wjgogogo/vscode-find-test-file/commit/1c60a60715d387bea775e9ba7419259d00394909))
+
 ## [0.2.7](https://github.com/wjgogogo/vscode-find-test-file/compare/v0.2.6...v0.2.7) (2021-07-02)
 
 ### Features

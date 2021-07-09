@@ -2,7 +2,7 @@
   "name": "find-test-file",
   "displayName": "Find Test File",
   "description": "It'll help you jump between source and test file easily.",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "license": "MIT",
   "engines": {
     "vscode": "^1.50.0"
