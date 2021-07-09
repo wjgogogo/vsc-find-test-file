@@ -37,14 +37,14 @@
         "title": "Jump To Source/Test File",
         "category": "Find Test File",
         "icon": "$(search-view-icon)",
-        "enablement": "resourceExtname =~ /.[jt]sx?/"
+        "enablement": "resourceExtname =~ /.[jt]sx?$/"
       },
       {
         "command": "find-test-file.createTestFile",
         "title": "Create Test File For Current",
         "category": "Find Test File",
         "icon": "$(file-add)",
-        "enablement": "resourceExtname =~ /.[jt]sx?/ && config.findTestFile.createIfNotFind.enable == true"
+        "enablement": "resourceExtname =~ /.[jt]sx?$/ && config.findTestFile.createIfNotFind.enable == true"
       }
     ],
     "keybindings": [
@@ -52,13 +52,13 @@
         "command": "find-test-file.jumpToTest",
         "key": "ctrl+shift+t",
         "mac": "cmd+shift+t",
-        "when": "resourceExtname =~ /.[jt]sx?/"
+        "when": "resourceExtname =~ /.[jt]sx?$/"
       },
       {
         "command": "find-test-file.createTestFile",
         "key": "ctrl+alt+t",
         "mac": "cmd+alt+t",
-        "when": "resourceExtname =~ /.[jt]sx?/ && config.findTestFile.createIfNotFind.enable == true"
+        "when": "resourceExtname =~ /.[jt]sx?$/ && config.findTestFile.createIfNotFind.enable == true"
       }
     ],
     "menus": {
@@ -66,24 +66,24 @@
         {
           "command": "find-test-file.jumpToTest",
           "group": "1_find-test-file",
-          "when": "resourceExtname =~ /.[jt]sx?/"
+          "when": "resourceExtname =~ /.[jt]sx?$/"
         },
         {
           "command": "find-test-file.createTestFile",
           "group": "1_find-test-file",
-          "when": "resourceExtname =~ /.[jt]sx?/ && config.findTestFile.createIfNotFind.enable == true"
+          "when": "resourceExtname =~ /.[jt]sx?$/ && config.findTestFile.createIfNotFind.enable == true"
         }
       ],
       "editor/title": [
         {
           "command": "find-test-file.jumpToTest",
           "group": "navigation",
-          "when": "resourceExtname =~ /.[jt]sx?/"
+          "when": "resourceExtname =~ /.[jt]sx?$/"
         },
         {
           "command": "find-test-file.createTestFile",
           "group": "navigation",
-          "when": "resourceExtname =~ /.[jt]sx?/ && config.findTestFile.createIfNotFind.enable == true"
+          "when": "resourceExtname =~ /.[jt]sx?$/ && config.findTestFile.createIfNotFind.enable == true"
         }
       ]
     },
