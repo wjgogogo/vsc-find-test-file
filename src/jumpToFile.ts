@@ -1,16 +1,16 @@
-import {
-  createTestFile,
-  CreateTestFileOption,
-  getCreatePickItems,
-} from "./createTestFile";
-import vscode, { QuickPickItem } from "vscode";
 import path from "path";
 import similarity from "string-similarity";
+import vscode, { QuickPickItem } from "vscode";
 import { SIMILARITY_TOLERANCE } from "./constant";
+import {
+  CreateTestFileOption,
+  getCreatePickItems,
+  tryCreateTestFile,
+} from "./createTestFile";
 
 export const openFile = async (filePath: string) => {
   const document = await vscode.workspace.openTextDocument(filePath);
-  await vscode.window.showTextDocument(document);
+  return await vscode.window.showTextDocument(document);
 };
 
 export const jumpToPossibleFiles = async (
@@ -47,10 +47,10 @@ export const jumpToPossibleFiles = async (
     if (!select) {
       return;
     }
-    if (select.description) {
+    if (select?.description) {
       await openFile(select.description!);
     } else if (isJumpToTestFile) {
-      await createTestFile(createTestFileOption);
+      await tryCreateTestFile(createTestFileOption);
     }
   }
 };

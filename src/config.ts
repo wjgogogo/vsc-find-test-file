@@ -7,6 +7,7 @@ interface Config {
   };
   createIfNotFind: {
     enable: boolean;
+    insertSnippet: boolean;
     preferStructureMode: "separate" | "unite";
     preferTestDirectory: {
       separate: string;
@@ -49,6 +50,11 @@ export const getExcludeFolderCfg = () => {
 export const getCreateIfNotFindCfg = () => {
   const [enable] = getCfgByKey("createIfNotFind", "enable");
   return enable;
+};
+
+export const getInsertSnippetCfg = () => {
+  const [insertSnippet] = getCfgByKey("createIfNotFind", "insertSnippet");
+  return insertSnippet;
 };
 
 export const getCreateTestFilePreferCfg = () => {

@@ -1,6 +1,6 @@
-import { getTestSuffixCfg } from "./config";
-import { VALID_FILE_EXTENSION_REG, FILE_BASENAME_REG } from "./constant";
 import RandExp from "randexp";
+import { getTestSuffixCfg } from "./config";
+import { FILE_BASENAME_REG, VALID_FILE_EXTENSION_REG } from "./constant";
 import { getBasename } from "./getPath";
 
 let reg: RegExp;

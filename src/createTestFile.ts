@@ -1,6 +1,6 @@
-import { isValidFile } from "./regexp";
-import { getCreateIfNotFindCfg } from "./config";
-import vscode, { QuickPickItem } from "vscode";
+import fs from "fs";
+import vscode, { QuickPickItem, SnippetString } from "vscode";
+import { getCreateIfNotFindCfg, getInsertSnippetCfg } from "./config";
 import {
   DISABLE_CREATE_TEST_FILE_WARNING_MESSAGE,
   INVALID_TEST_FILE_WARNING_MESSAGE,
@@ -9,12 +9,12 @@ import {
   NO_FOUND_WARNING_MESSAGE,
 } from "./constant";
 import {
+  existedTestFile,
   getNewTestFilePath,
   getParentDirectory,
-  tryToGetTestFilePath,
 } from "./getPath";
-import fs from "fs";
 import { openFile } from "./jumpToFile";
+import { isValidFile } from "./regexp";
 
 export interface CreateTestFileOption {
   basename: string;
@@ -23,7 +23,7 @@ export interface CreateTestFileOption {
   root: string;
 }
 
-export const createTestFile = async (
+export const tryCreateTestFile = async (
   { basename, ext, parent, root }: CreateTestFileOption,
   manualCreate: boolean = true
 ) => {
@@ -39,11 +39,29 @@ export const createTestFile = async (
   const filePath = getNewTestFilePath(basename, ext, parent, root);
 
   // if test file existed, open it directly
-  let existedPath = tryToGetTestFilePath(filePath, basename, ext);
-  if (existedPath) {
-    return await openFile(existedPath);
+  if (existedTestFile(filePath)) {
+    return await openFile(filePath);
   }
 
+  const userInputPath = await openCreateTextFileInputBox(
+    filePath,
+    basename,
+    ext
+  );
+  if (!userInputPath) {
+    return;
+  }
+
+  existedTestFile(userInputPath)
+    ? await openFile(userInputPath)
+    : await createTestFile(userInputPath, basename);
+};
+
+const openCreateTextFileInputBox = async (
+  filePath: string,
+  basename: string,
+  ext: string
+) => {
   const userInputPath = await vscode.window.showInputBox({
     prompt: NEW_TEST_FILE_PROMPT,
     value: filePath,
@@ -55,16 +73,23 @@ export const createTestFile = async (
     },
   });
 
-  if (!userInputPath) {
-    return;
-  }
-  existedPath = tryToGetTestFilePath(userInputPath, basename, ext);
-  if (existedPath) {
-    await openFile(existedPath);
-  } else {
-    fs.mkdirSync(getParentDirectory(userInputPath), { recursive: true });
-    fs.closeSync(fs.openSync(userInputPath, "w+"));
-    await openFile(userInputPath);
+  return userInputPath;
+};
+
+const createTestFile = async (inputPath: string, basename: string) => {
+  fs.mkdirSync(getParentDirectory(inputPath), { recursive: true });
+  fs.closeSync(fs.openSync(inputPath, "w+"));
+  const editor = await openFile(inputPath);
+
+  if (getInsertSnippetCfg()) {
+    const snippet = [
+      `describe('\${1:${basename} test}', () => {`,
+      "\ttest('${2:should}', \t() => {",
+      "\t\t${3}",
+      "\t});",
+      "});",
+    ].join("\n");
+    await editor.insertSnippet(new SnippetString(snippet));
   }
 };
 

@@ -1,14 +1,11 @@
-import { generateValidTestSuffix, isValidFile } from "./regexp";
-import path from "path";
 import fs from "fs";
-import { PKG_FILE_NAME, SOURCE_FOLDER } from "./constant";
+import path from "path";
 import { getCreateTestFilePreferCfg, getExcludeFolderCfg } from "./config";
+import { PKG_FILE_NAME, SOURCE_FOLDER } from "./constant";
+import { generateValidTestSuffix, isValidFile } from "./regexp";
 
-export const getCurrentProjectPath = (
-  filePath: string,
-  workspacePath: string
-) => {
-  let current = path.dirname(filePath);
+export const getRootPath = (filePath: string, workspacePath: string) => {
+  let current = getParentDirectory(filePath);
 
   if (current === workspacePath) {
     return workspacePath;
@@ -19,8 +16,9 @@ export const getCurrentProjectPath = (
     if (fs.existsSync(pkgPath)) {
       return current;
     }
-    current = path.dirname(current);
+    current = getParentDirectory(current);
   } while (current !== workspacePath);
+
   return workspacePath;
 };
 
@@ -80,6 +78,7 @@ export const getNewTestFilePath = (
   const { preferStructureMode, preferTestDirectory } =
     getCreateTestFilePreferCfg();
   const testFileName = `${basename}${generateValidTestSuffix()}${ext}`;
+
   let directory;
   if (preferStructureMode === "separate") {
     const newRoot = path.join(root, preferTestDirectory.separate);
@@ -95,21 +94,6 @@ export const getNewTestFilePath = (
   return path.join(directory, testFileName);
 };
 
-export const tryToGetTestFilePath = (
-  filePath: string,
-  basename: string,
-  ext: string
-) => {
-  if (!fs.existsSync(filePath)) {
-    return;
-  }
-  const parent = getParentDirectory(filePath);
-  const fileName = fs
-    .readdirSync(parent)
-    .find(
-      (name) =>
-        fs.statSync(path.join(parent, name)).isFile() &&
-        isValidFile(basename, ext, name, true)
-    );
-  return fileName && path.join(parent, fileName);
+export const existedTestFile = (filePath: string) => {
+  return fs.existsSync(filePath) && fs.statSync(filePath).isFile();
 };

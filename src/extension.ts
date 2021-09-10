@@ -1,9 +1,9 @@
-import { createTestFile } from "./createTestFile";
+import { tryCreateTestFile } from "./createTestFile";
 import { jumpToPossibleFiles } from "./jumpToFile";
 import {
   getAllPossibleFilePaths,
   getBasename,
-  getCurrentProjectPath,
+  getRootPath,
   getParentDirectory,
 } from "./getPath";
 import {
@@ -32,7 +32,7 @@ function doPrepare() {
     activeEditor.document.uri
   )!.uri.fsPath;
 
-  const root = getCurrentProjectPath(activeFilePath, workspaceFilePath);
+  const root = getRootPath(activeFilePath, workspaceFilePath);
 
   const [, basename, suffix] = result;
   const ext = result[result.length - 1];
@@ -71,7 +71,7 @@ export function activate(context: vscode.ExtensionContext) {
       };
 
       if (relativeFiles.length === 0 && searchTestFile) {
-        createTestFile(createTestFileOption, false);
+        tryCreateTestFile(createTestFileOption, false);
       } else if (relativeFiles.length > 0) {
         jumpToPossibleFiles(
           activeFilePath,
@@ -104,7 +104,7 @@ export function activate(context: vscode.ExtensionContext) {
         parent: getParentDirectory(activeFilePath),
         root,
       };
-      createTestFile(createTestFileOption);
+      tryCreateTestFile(createTestFileOption);
     }
   );
   context.subscriptions.push(jumpToTestCommand, createTestFileCommand);

@@ -111,6 +111,11 @@
           "default": false,
           "markdownDescription": "Decide whether to create a test file when it can't be found. By default, it's `false`."
         },
+        "findTestFile.createIfNotFind.insertSnippet": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Decide whether to insert code snippet. By default, it's `true`."
+        },
         "findTestFile.createIfNotFind.preferStructureMode": {
           "type": "string",
           "default": "separate",
