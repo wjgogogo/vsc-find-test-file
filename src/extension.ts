@@ -1,16 +1,16 @@
-import { tryCreateTestFile } from "./createTestFile";
-import { jumpToPossibleFiles } from "./jumpToFile";
-import {
-  getAllPossibleFilePaths,
-  getBasename,
-  getRootPath,
-  getParentDirectory,
-} from "./getPath";
+import vscode from "vscode";
 import {
   INVALID_FILE_WARNING_MESSAGE,
   NEW_TEST_FILE_WARNING_MESSAGE,
 } from "./constant";
-import vscode from "vscode";
+import { tryCreateTestFile } from "./createTestFile";
+import {
+  getAllPossibleFilePaths,
+  getBasename,
+  getParentDirectory,
+  getRootPath,
+} from "./getPath";
+import { jumpToPossibleFile } from "./jumpToFile";
 import { createValidFileReg } from "./regexp";
 
 function doPrepare() {
@@ -28,11 +28,11 @@ function doPrepare() {
     return;
   }
 
-  const workspaceFilePath = vscode.workspace.getWorkspaceFolder(
+  const workspacePath = vscode.workspace.getWorkspaceFolder(
     activeEditor.document.uri
   )!.uri.fsPath;
 
-  const root = getRootPath(activeFilePath, workspaceFilePath);
+  const root = getRootPath(activeFilePath, workspacePath);
 
   const [, basename, suffix] = result;
   const ext = result[result.length - 1];
@@ -57,7 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
       const { root, activeFilePath, basename, ext, searchTestFile } = result;
-      const relativeFiles = getAllPossibleFilePaths(
+      const possibleFiles = getAllPossibleFilePaths(
         basename,
         ext,
         root,
@@ -70,12 +70,12 @@ export function activate(context: vscode.ExtensionContext) {
         root,
       };
 
-      if (relativeFiles.length === 0 && searchTestFile) {
+      if (possibleFiles.length === 0 && searchTestFile) {
         tryCreateTestFile(createTestFileOption, false);
-      } else if (relativeFiles.length > 0) {
-        jumpToPossibleFiles(
+      } else if (possibleFiles.length > 0) {
+        jumpToPossibleFile(
           activeFilePath,
-          relativeFiles,
+          possibleFiles,
           searchTestFile,
           createTestFileOption
         );

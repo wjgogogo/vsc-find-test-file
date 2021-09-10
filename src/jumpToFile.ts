@@ -13,7 +13,7 @@ export const openFile = async (filePath: string) => {
   return await vscode.window.showTextDocument(document);
 };
 
-export const jumpToPossibleFiles = async (
+export const jumpToPossibleFile = async (
   current: string,
   relativeFiles: string[],
   isJumpToTestFile: boolean,
