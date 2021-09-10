@@ -57,6 +57,10 @@ The regexp patterns that extension uses to detect test files. By default, it loo
 
 Decide whether to create a test file when it can't be found. By default, it's `false`.
 
+#### `findTestFile.createIfNotFind.insertSnippet`
+
+Decide whether to insert code snippet. By default, it's `true`.
+
 #### `findTestFile.createIfNotFind.preferStructureMode`
 
 The preferred way to create a test file when can't find it and `findTestFile.createIfNotFind.enable` is enabled. By default, it's `separate`.
